@@ -11,6 +11,8 @@ import net.thucydides.core.annotations.Managed;
 import net.thucydides.core.webdriver.WebDriverFacade;
 import org.fluentlenium.core.annotation.Page;
 import org.junit.Assert;
+import org.openqa.selenium.ElementNotVisibleException;
+import org.openqa.selenium.Keys;
 
 public class SearchSteps {
 
@@ -34,6 +36,11 @@ public class SearchSteps {
     @When("^The user type \"([^\"]*)\" into the search field$")
     public void type_into_search_field(String searchCriteria) {
         googlePage.search(searchCriteria);
+    }
+
+    @When("^The user type \"([^\"]*)\" into the search field and press Enter$")
+    public void type_into_search_field_enter(String searchCriteria) {
+        type_into_search_field(searchCriteria+ Keys.ENTER);
     }
 
     @And("^The user click the Google Search button$")
@@ -72,5 +79,17 @@ public class SearchSteps {
     @And("^The user clicks on the first suggestion in the list$")
     public void click_first_suggestion() {
         googleSearchSuggestionBox.clickFirstSuggestion();
+    }
+
+    @Then("^the number of results must not exceed 10")
+    public void result_list_less_than_10() {
+        int numberOfResultsInPage = googleSearchResultsPage.getResults().size();
+        Assert.assertTrue("Exceeded number of results per page", numberOfResultsInPage < 10);
+    }
+
+    @Then("^the applications shows corrected query")
+    public void show_corrected_query() {
+        boolean isDisplayed = googleSearchResultsPage.isLabelShowingResultsForDisplayed();
+        Assert.assertTrue("Corrected query not displayed", isDisplayed);
     }
 }

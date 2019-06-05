@@ -13,6 +13,9 @@ public class GoogleSearchPage extends BasePage {
     @FindBy(name = "btnK")
     private WebElement searchButton;
 
+    @FindBy(name = "btnI")
+    private WebElement feelingLuckyButton;
+
     public GoogleSearchPage(WebDriver d) {
         super(d);
     }
@@ -24,6 +27,10 @@ public class GoogleSearchPage extends BasePage {
 
     public void clickSearch() {
         click(searchButton);
+    }
+
+    public void clickFeelingLucky() {
+        click(feelingLuckyButton);
     }
 
     public GoogleSearchResults waitForResults() {
