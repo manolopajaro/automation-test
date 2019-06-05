@@ -6,26 +6,28 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+
 
 public class GoogleSearchResults extends BasePage {
 
-    @FindBy(xpath = ".//div[h2[@class='bNg8Rb']]/div[1]")
-    private WebElement result;
+    @FindBy(xpath = ".//div[h2[@class='bNg8Rb']]/div/div[@class='g']")
+    private List<WebElement> result;
 
-    GoogleSearchResults(WebDriver driver) {
+    public GoogleSearchResults(WebDriver driver) {
         super(driver);
     }
 
     public void waitForResults() {
-        waitFor(result);
+        waitFor(result.get(0));
     }
 
     public WebElement getFirstResult() {
-        return result.findElement(By.cssSelector("a > h3"));
+        return result.get(0).findElement(By.cssSelector("a > h3"));
     }
 
     public void clickFirstResult() {
-        WebElement firstResult = result.findElement(By.xpath(".//div[1]/a"));
+        WebElement firstResult = result.get(0).findElement(By.xpath(".//div[1]/a"));
         click(firstResult);
     }
 }
